@@ -1,0 +1,26 @@
+ #include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    char text[100];
+    int shifts[100], i = 0;
+
+    printf("Enter text: ");
+    fgets(text, sizeof(text), stdin);
+
+    printf("Enter shift values for each character:\n");
+    
+    for(i = 0; text[i] != '\0' && text[i] != '\n'; i++) {
+        scanf("%d", &shifts[i]);
+    }
+
+    for(int j = 0; j < i; j++) {
+        if(isalpha(text[j])) {
+            char base = islower(text[j]) ? 'a' : 'A';
+            text[j] = (text[j] - base + shifts[j]) % 26 + base;
+        }
+    }
+
+    printf("Encrypted text: %s", text);
+    return 0;
+}
