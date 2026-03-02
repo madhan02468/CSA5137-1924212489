@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <ctype.h>
+
+void encrypt(char text[], int shift) {
+    for(int i = 0; text[i] != '\0'; i++) {
+        if(isalpha(text[i])) {
+            char base = islower(text[i]) ? 'a' : 'A';
+            text[i] = (text[i] - base + shift) % 26 + base;
+        }
+    }
+}
+
+int main() {
+    char text[100];
+    int shift;
+
+    printf("Enter text: ");
+    fgets(text, sizeof(text), stdin);
+
+    printf("Enter shift value: ");
+    scanf("%d", &shift);
+
+    encrypt(text, shift);
+
+    printf("Encrypted text: %s", text);
+    return 0;
+}
