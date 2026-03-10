@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int modInverse(int a) {
+    for (int x = 1; x < 26; x++) {
+        if ((a * x) % 26 == 1)
+            return x;
+    }
+    return -1;
+}
+
+void encrypt(char msg[], int a, int b) {
+    char ch;
+    printf("Encrypted message: ");
+
+    for (int i = 0; msg[i] != '\0'; i++) {
+        ch = msg[i];
+
+        if (isalpha(ch)) {
+            ch = toupper(ch);
+            ch = ((a * (ch - 'A') + b) % 26) + 'A';
+        }
+
+        printf("%c", ch);
+    }
+    printf("\n");
+}
+
+void decrypt(char msg[], int a, int b) {
+    int a_inv = modInverse(a);
+    char ch;
+
+    printf("Decrypted message: ");
+
+    for (int i = 0; msg[i] != '\0'; i++) {
+        ch = msg[i];
+
+        if (isalpha(ch)) {
+            ch = toupper(ch);
+            ch = (a_inv * ((ch - 'A') - b + 26)) % 26 + 'A';
+        }
+
+        printf("%c", ch);
+    }
+    printf("\n");
+}
+
+int main() {
+    char message[100];
+    int a, b;
+
+    printf("Enter message: ");
+    fgets(message, sizeof(message), stdin);
+
+    printf("Enter key a (must be coprime with 26): ");
+    scanf("%d", &a);
+
+    printf("Enter key b: ");
+    scanf("%d", &b);
+
+    encrypt(message, a, b);
+    decrypt(message, a, b);
+
+    return 0;
+}
